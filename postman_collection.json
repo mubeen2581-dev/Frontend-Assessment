@@ -1,0 +1,275 @@
+{
+	"info": {
+		"_postman_id": "architecture-dashboard-api",
+		"name": "Architecture Dashboard API",
+		"description": "API collection for the Next.js Architecture Dashboard application",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Architecture API",
+			"item": [
+				{
+					"name": "Get Architecture Data",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/api/architecture",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"architecture"
+							]
+						},
+						"description": "Returns the architecture diagram data including nodes and links"
+					},
+					"response": [
+						{
+							"name": "Success Response",
+							"originalRequest": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{base_url}}/api/architecture",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"api",
+										"architecture"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"nodes\": [\n        {\n            \"id\": \"client\",\n            \"name\": \"Next.js Client\",\n            \"type\": \"frontend\"\n        },\n        {\n            \"id\": \"auth\",\n            \"name\": \"OAuth Provider\",\n            \"type\": \"auth\"\n        },\n        {\n            \"id\": \"api\",\n            \"name\": \"Backend API\",\n            \"type\": \"backend\"\n        },\n        {\n            \"id\": \"db\",\n            \"name\": \"Database\",\n            \"type\": \"database\"\n        }\n    ],\n    \"links\": [\n        {\n            \"source\": \"client\",\n            \"target\": \"auth\"\n        },\n        {\n            \"source\": \"client\",\n            \"target\": \"api\"\n        },\n        {\n            \"source\": \"api\",\n            \"target\": \"db\"\n        }\n    ]\n}"
+						}
+					]
+				}
+			]
+		},
+		{
+			"name": "NextAuth API",
+			"item": [
+				{
+					"name": "Get Session",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/api/auth/session",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"auth",
+								"session"
+							]
+						},
+						"description": "Get the current user session. Returns user info if authenticated, or empty object if not."
+					},
+					"response": []
+				},
+				{
+					"name": "Get Providers",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/api/auth/providers",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"auth",
+								"providers"
+							]
+						},
+						"description": "Get available OAuth providers (Google, GitHub)"
+					},
+					"response": []
+				},
+				{
+					"name": "Get CSRF Token",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/api/auth/csrf",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"auth",
+								"csrf"
+							]
+						},
+						"description": "Get CSRF token for authentication requests"
+					},
+					"response": []
+				},
+				{
+					"name": "Sign In (Google)",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/x-www-form-urlencoded"
+							}
+						],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": [
+								{
+									"key": "callbackUrl",
+									"value": "{{base_url}}/dashboard",
+									"type": "text"
+								},
+								{
+									"key": "csrfToken",
+									"value": "{{csrf_token}}",
+									"type": "text",
+									"description": "Get this from /api/auth/csrf first"
+								},
+								{
+									"key": "json",
+									"value": "true",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "{{base_url}}/api/auth/signin/google",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"auth",
+								"signin",
+								"google"
+							]
+						},
+						"description": "Initiate Google OAuth sign-in. Note: This typically redirects to Google, so use browser for full flow."
+					},
+					"response": []
+				},
+				{
+					"name": "Sign In (GitHub)",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/x-www-form-urlencoded"
+							}
+						],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": [
+								{
+									"key": "callbackUrl",
+									"value": "{{base_url}}/dashboard",
+									"type": "text"
+								},
+								{
+									"key": "csrfToken",
+									"value": "{{csrf_token}}",
+									"type": "text",
+									"description": "Get this from /api/auth/csrf first"
+								},
+								{
+									"key": "json",
+									"value": "true",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "{{base_url}}/api/auth/signin/github",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"auth",
+								"signin",
+								"github"
+							]
+						},
+						"description": "Initiate GitHub OAuth sign-in. Note: This typically redirects to GitHub, so use browser for full flow."
+					},
+					"response": []
+				},
+				{
+					"name": "Sign Out",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/x-www-form-urlencoded"
+							}
+						],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": [
+								{
+									"key": "csrfToken",
+									"value": "{{csrf_token}}",
+									"type": "text"
+								},
+								{
+									"key": "callbackUrl",
+									"value": "{{base_url}}",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "{{base_url}}/api/auth/signout",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"auth",
+								"signout"
+							]
+						},
+						"description": "Sign out the current user"
+					},
+					"response": []
+				}
+			]
+		}
+	],
+	"variable": [
+		{
+			"key": "base_url",
+			"value": "http://localhost:3000",
+			"type": "string"
+		},
+		{
+			"key": "csrf_token",
+			"value": "",
+			"type": "string"
+		}
+	]
+}
+
